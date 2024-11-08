@@ -3,8 +3,11 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_OWNER = 'dangdang42'
-        DOCKER_IMAGE_TAG = 'latest'
+        DOCKER_IMAGE_TAG = "v${env.BUILD_NUMBER}"
         DOCKER_PWD = credentials('dockerhub')
+        GIT_CREDENTIALS = credentials('github_access_token')
+        REPO_URL = 'gongbu22/project-parking-CD.git'
+        COMMIT_MESSAGE = 'Update README.md via Jenkins Pipeline'
     }
 
     stages {
