@@ -15,6 +15,8 @@ pipeline {
             steps {
                 sh '''
                 rm -rf project-parking-yj
+                sudo apt-get update
+                sudo apt-get install git
                 git clone https://github.com/gongbu22/project-parking-yj.git
                 '''
             }
@@ -25,6 +27,7 @@ pipeline {
                 dir('project-parking-yj'){
                 sh '''
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:${DOCKER_IMAGE_TAG} -f ./msa-frontend/nginx-Dockerfile ./msa-frontend
+                docker tag ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:latest ${DOCKER_IMAGE_OWNER}/msa-frontend:${DOCKER_BUILD_TAG}
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:${DOCKER_IMAGE_TAG} -f ./msa-frontend/nodejs-Dockerfile ./msa-frontend
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-parking-service:${DOCKER_IMAGE_TAG} ./msa-parking-service
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-payment-service:${DOCKER_IMAGE_TAG} ./msa-payment-service
