@@ -152,8 +152,8 @@ const processPayment = async () => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 carnum: carLicense,
-                payment: amount.toString(),
-                paydate: new Date().toISOString(),
+                payment: amount,
+                // paydate: new Date().toISOString(),
                 parkingtime: document.getElementById('parkingDuration').innerText
             })
         });

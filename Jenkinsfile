@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE_OWNER = 'dangdang42'
         DOCKER_IMAGE_TAG = "v${env.BUILD_NUMBER}"
         DOCKER_PWD = credentials('dockerhub')
-        GIT_CREDENTIALS = credentials('github_access_token')
+        GIT_CREDENTIALS = credentials('github_access')
         REPO_URL = 'gongbu22/project-parking-CD-yj.git'
         COMMIT_MESSAGE = 'Update README.md via Jenkins Pipeline'
     }
@@ -15,8 +15,6 @@ pipeline {
             steps {
                 sh '''
                 rm -rf project-parking-yj
-                sudo apt-get update
-                sudo apt-get install git
                 git clone https://github.com/gongbu22/project-parking-yj.git
                 '''
             }
@@ -27,12 +25,17 @@ pipeline {
                 dir('project-parking-yj'){
                 sh '''
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:${DOCKER_IMAGE_TAG} -f ./msa-frontend/nginx-Dockerfile ./msa-frontend
-                docker tag ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:latest ${DOCKER_IMAGE_OWNER}/msa-frontend:${DOCKER_BUILD_TAG}
+                docker tag ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:latest ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:${DOCKER_BUILD_TAG}
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:${DOCKER_IMAGE_TAG} -f ./msa-frontend/nodejs-Dockerfile ./msa-frontend
+                docker tag ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:latest ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:${DOCKER_BUILD_TAG}
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-parking-service:${DOCKER_IMAGE_TAG} ./msa-parking-service
+                docker tag ${DOCKER_IMAGE_OWNER}/msa-parking-service:latest ${DOCKER_IMAGE_OWNER}/msa-parking-service:${DOCKER_BUILD_TAG}
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-payment-service:${DOCKER_IMAGE_TAG} ./msa-payment-service
+                docker tag ${DOCKER_IMAGE_OWNER}/msa-payment-service:latest ${DOCKER_IMAGE_OWNER}/msa-payment-service:${DOCKER_BUILD_TAG}
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-register-service:${DOCKER_IMAGE_TAG} ./msa-register-service
+                docker tag ${DOCKER_IMAGE_OWNER}/msa-register-service:latest ${DOCKER_IMAGE_OWNER}/msa-register-service:${DOCKER_BUILD_TAG}
                 docker build -t ${DOCKER_IMAGE_OWNER}/msa-statistics-service:${DOCKER_IMAGE_TAG} ./msa-statistics-service
+                docker tag ${DOCKER_IMAGE_OWNER}/msa-statistics-service:latest ${DOCKER_IMAGE_OWNER}/msa-statistics-service:${DOCKER_BUILD_TAG}
                 '''
                 }
             }
@@ -49,14 +52,20 @@ pipeline {
             steps {
                 sh '''
                 docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:latest
                 docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:latest
                 docker push ${DOCKER_IMAGE_OWNER}/msa-parking-service:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-parking-service:latest
                 docker push ${DOCKER_IMAGE_OWNER}/msa-payment-service:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-payment-service:latest
                 docker push ${DOCKER_IMAGE_OWNER}/msa-register-service:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-register-service:latest
                 docker push ${DOCKER_IMAGE_OWNER}/msa-statistics-service:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-statistics-service:latest
                 '''
             }
-        }
+
 
         stage('Docker Logout') {
             steps {
