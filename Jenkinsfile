@@ -24,17 +24,17 @@ pipeline {
             steps {
                 dir('project-parking-yj'){
                 sh '''
-                docker build -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:${DOCKER_BUILD_TAG} -f ./msa-frontend/nginx-Dockerfile ./msa-frontend
+                docker build -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:latest -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:${DOCKER_BUILD_TAG} -f ./msa-frontend/nginx-Dockerfile ./msa-frontend
                 docker tag ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:latest ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:${DOCKER_BUILD_TAG}
-                docker build -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:${DOCKER_BUILD_TAG} -f ./msa-frontend/nodejs-Dockerfile ./msa-frontend
+                docker build -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:latest -t ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:${DOCKER_BUILD_TAG} -f ./msa-frontend/nodejs-Dockerfile ./msa-frontend
                 docker tag ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:latest ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:${DOCKER_BUILD_TAG}
-                docker build -t ${DOCKER_IMAGE_OWNER}/msa-parking-service:${DOCKER_BUILD_TAG} ./msa-parking-service
+                docker build -t ${DOCKER_IMAGE_OWNER}/msa-parking-service:latest -t ${DOCKER_IMAGE_OWNER}/msa-parking-service:${DOCKER_BUILD_TAG} ./msa-parking-service
                 docker tag ${DOCKER_IMAGE_OWNER}/msa-parking-service:latest ${DOCKER_IMAGE_OWNER}/msa-parking-service:${DOCKER_BUILD_TAG}
-                docker build -t ${DOCKER_IMAGE_OWNER}/msa-payment-service:${DOCKER_BUILD_TAG} ./msa-payment-service
+                docker build -t ${DOCKER_IMAGE_OWNER}/msa-payment-service:latest -t ${DOCKER_IMAGE_OWNER}/msa-payment-service:${DOCKER_BUILD_TAG} ./msa-payment-service
                 docker tag ${DOCKER_IMAGE_OWNER}/msa-payment-service:latest ${DOCKER_IMAGE_OWNER}/msa-payment-service:${DOCKER_BUILD_TAG}
-                docker build -t ${DOCKER_IMAGE_OWNER}/msa-register-service:${DOCKER_BUILD_TAG} ./msa-register-service
+                docker build -t ${DOCKER_IMAGE_OWNER}/msa-register-service:latest -t ${DOCKER_IMAGE_OWNER}/msa-register-service:${DOCKER_BUILD_TAG} ./msa-register-service
                 docker tag ${DOCKER_IMAGE_OWNER}/msa-register-service:latest ${DOCKER_IMAGE_OWNER}/msa-register-service:${DOCKER_BUILD_TAG}
-                docker build -t ${DOCKER_IMAGE_OWNER}/msa-statistics-service:${DOCKER_BUILD_TAG} ./msa-statistics-service
+                docker build -t ${DOCKER_IMAGE_OWNER}/msa-statistics-service:latest -t ${DOCKER_IMAGE_OWNER}/msa-statistics-service:${DOCKER_BUILD_TAG} ./msa-statistics-service
                 docker tag ${DOCKER_IMAGE_OWNER}/msa-statistics-service:latest ${DOCKER_IMAGE_OWNER}/msa-statistics-service:${DOCKER_BUILD_TAG}
                 '''
                 }
