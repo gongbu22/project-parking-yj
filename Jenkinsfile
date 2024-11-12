@@ -65,5 +65,48 @@ pipeline {
                 '''
             }
         }
+
+        stage('Clone Repository') {
+            steps {
+                sh '''
+                rm -rf project-parking-CD-yj
+                git clone https://github.com/${REPO_URL}
+                '''
+            }
+        }
+
+        stage('Modify README.md') {
+            steps {
+                sh """
+                    cd project-parking-CD-yj
+                    echo "# Updated README" > README.md
+                    echo "This README was updated by Jenkins Build #${env.BUILD_NUMBER} on \$(date)" >> README.md
+                """
+            }
+        }
+
+        stage('Commit Changes') {
+            steps {
+                dir('hello-msa-cd') {
+                sh '''
+                    git config user.name "gongbu22"
+                    git config user.email "pyujin0711@naver.com"
+                    git add README.md
+                    git commit -m "${COMMIT_MESSAGE}"
+                '''
+                }
+            }
+        }
+
+        stage('Push Changes') {
+            steps {
+                dir('hello-msa-cd') {
+                sh '''
+                    git push https://${GIT_CREDENTIALS_USR}:${GIT_CREDENTIALS_PSW}@github.com/${REPO_URL} main
+                '''
+                }
+            }
+        }
+
     }
 }
