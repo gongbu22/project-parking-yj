@@ -65,7 +65,7 @@ pipeline {
                 docker push ${DOCKER_IMAGE_OWNER}/msa-statistics-service:latest
                 '''
             }
-
+        }
 
         stage('Docker Logout') {
             steps {
@@ -116,6 +116,5 @@ pipeline {
                 }
             }
         }
-
     }
 }
