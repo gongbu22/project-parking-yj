@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_OWNER = 'dangdang42'
-        DOCKER_IMAGE_TAG = "v${env.BUILD_NUMBER}"
+        DOCKER_BUILD_TAG = "v${env.BUILD_NUMBER}"
         DOCKER_PWD = credentials('dockerhub')
         GIT_CREDENTIALS = credentials('github_access')
         REPO_URL = 'gongbu22/project-parking-CD-yj.git'
@@ -51,17 +51,17 @@ pipeline {
         stage('Docker Image pushing') {
             steps {
                 sh '''
-                docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:${DOCKER_BUILD_TAG}
                 docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nginx:latest
-                docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:${DOCKER_BUILD_TAG}
                 docker push ${DOCKER_IMAGE_OWNER}/msa-frontend-nodejs:latest
-                docker push ${DOCKER_IMAGE_OWNER}/msa-parking-service:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-parking-service:${DOCKER_BUILD_TAG}
                 docker push ${DOCKER_IMAGE_OWNER}/msa-parking-service:latest
-                docker push ${DOCKER_IMAGE_OWNER}/msa-payment-service:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-payment-service:${DOCKER_BUILD_TAG}
                 docker push ${DOCKER_IMAGE_OWNER}/msa-payment-service:latest
-                docker push ${DOCKER_IMAGE_OWNER}/msa-register-service:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-register-service:${DOCKER_BUILD_TAG}
                 docker push ${DOCKER_IMAGE_OWNER}/msa-register-service:latest
-                docker push ${DOCKER_IMAGE_OWNER}/msa-statistics-service:${DOCKER_IMAGE_TAG}
+                docker push ${DOCKER_IMAGE_OWNER}/msa-statistics-service:${DOCKER_BUILD_TAG}
                 docker push ${DOCKER_IMAGE_OWNER}/msa-statistics-service:latest
                 '''
             }
